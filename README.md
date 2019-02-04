@@ -1,1 +1,1 @@
-# Computational-Medicine
+# Computational Medicine
