@@ -1,0 +1,23 @@
+# Computational Medicine
+# Protein Degradation
+# Yong-Jun Shin (2019)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100                  # total number of data points
+n = np.arange(0, N, 1)   # vector [0,..., N-1]
+y = np.empty(N)          # vector: protein y concentration (uM)
+y[0] = 100               # initial y protein concentration = 100 uM
+Py = 0.9                 # degradation parameter
+
+for i in range (1, N):   # discrete-time index 
+    y[i] = Py*y[i-1]     # difference equation for protein degradation
+
+plt.plot(n,y,'g',label = 'y')
+plt.xlabel('time (i)')
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='upper right')
+plt.title('y protein degradation')
+plt.grid(True)
+plt.show()
