@@ -1,0 +1,31 @@
+# Computational Medicine
+# Simple 2-Gene Regulatory Network (Activation): x --> y
+# Yong-Jun Shin (2019)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100                  # total number of data points
+n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
+x = np.empty(N)          # protein x concentration in uM (vector)
+y = np.empty(N)          # protein y concentration in uM (vector)
+x.fill(10)               # constant x protein concentration (= 10 uM)
+y[0] = 0                 # initial y protein concentration (= 0 uM)
+Pxy = 0.2                # production parameter
+Py = 0.9                 # degradation parameter
+
+
+for i in range (1, N):              # discrete-time index i
+    y[i] = Pxy*x[i-1] + Py*y[i-1]   # difference equation 
+
+plt.plot(n,x,'g',label = 'x')
+plt.plot(n,y,'r',label = 'y')
+
+plt.xlabel('time (n)')
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='lower right')
+plt.title('x --> y')
+plt.grid(True)
+plt.show()
+    
+    
