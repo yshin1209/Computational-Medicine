@@ -1,5 +1,6 @@
 # Computational Medicine
 # Simple 2-Gene Regulatory Network (Activation): x --> y
+# Linear Time-Invariant Difference Equation
 # Yong-Jun Shin (2019)
 
 import numpy as np
