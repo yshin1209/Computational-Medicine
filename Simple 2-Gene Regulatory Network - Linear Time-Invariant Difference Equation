@@ -21,7 +21,6 @@ for i in range (1, N):              # discrete-time index i
 
 plt.plot(n,x,'g',label = 'x')
 plt.plot(n,y,'r',label = 'y')
-
 plt.xlabel('time (n)')
 plt.ylabel('protein concentration (uM)')
 plt.legend(loc='lower right')
