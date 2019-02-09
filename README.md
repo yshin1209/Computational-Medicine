@@ -1,5 +1,5 @@
-# Computational Medicine
-#### Course YouTube Channel
+# Computational Medicine (Online Course)
+#### YouTube Channel
 https://www.youtube.com/channel/UCCNnldmD9ptQlRL48JuI-vA/
-#### Yong-Jun Shin
+#### Instructor: Yong-Jun Shin
 #### yshin1209@gmail.com
