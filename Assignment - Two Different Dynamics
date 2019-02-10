@@ -1,0 +1,61 @@
+# Computational Medicine
+# Assignment - Two Different Dynamics
+# Yong-Jun Shin (2019)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100                  # Total number of data points
+n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
+x = np.empty(N)          # Protein x concentration in uM (vector)
+y1 = np.empty(N)         # Protein y1 (control) concentration in uM (vector)
+y2 = np.empty(N)         # Protein y2 concentration in uM (vector)
+y3 = np.empty(N)         # Protein y3 concentration in uM (vector)
+x.fill(10)               # Constant x protein concentration (= 10 uM)
+y1[0] = 0                # Initial y1 protein concentration (= 0 uM)
+y2[0] = 0                # Initial y2 protein concentration (= 0 uM)
+y3[0] = 0                # initial y3 protein concentration (= 0 uM)
+Pxy1 = 0.4               # Production parameter Pxy1
+Py1 = 0.9                # Degradation parameter Py1
+Pxy2 = 0.8               # Production parameter Pxy2
+Py2 = 0.2                # Degradation parameter Py2
+
+# Increase Pxy (= more protein production)
+# Only steady state level changes
+
+for i in range (1, N):                  # discrete-time index i
+    y1[i] = Pxy1*x[i-1] + Py1*y1[i-1]   # control
+    y2[i] = Pxy2*x[i-1] + Py1*y2[i-1]   # target (change in Pxy)
+
+# Decrease Py ( = more protein degradation)
+# Both steady state level and response time change
+    
+for i in range (1, N):                  # discrete-time index i
+    y1[i] = Pxy1*x[i-1] + Py1*y1[i-1]   # control
+    y3[i] = Pxy1*x[i-1] + Py2*y3[i-1]   # target (change in Py)
+
+# Pxy plot
+plt.subplot(1,2,1)
+plt.plot(n,x,'g',label = 'x')
+plt.plot(n,y1,'r',label = 'y1')
+plt.plot(n,y2,'b',label = 'y2')
+plt.xlabel('time (n)')
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='upper left')
+plt.title('Pxy increase: y1 --> y2 (more production)')
+plt.grid(True)
+
+# Py plot
+plt.subplot(1,2,2)
+plt.plot(n,x,'g',label = 'x')
+plt.plot(n,y1,'r',label = 'y1')
+plt.plot(n,y3,'c',label = 'y3')
+plt.xlabel('time (n)')
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='upper left')
+plt.title('Py decrease: y1 --> y3 (more degradation)')
+plt.grid(True)
+
+show()
+    
+    
