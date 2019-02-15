@@ -55,7 +55,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 
-public static async Task<Response> Run(HttpRequest req, ILogger log)
+public static async Task<double> Run(HttpRequest req, ILogger log)
 {
     string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
     dynamic data = JsonConvert.DeserializeObject(requestBody);
