@@ -1,0 +1,60 @@
+# Computational Medicine
+# Interlocked Feed Forward Loops
+# Yong-Jun Shin (2019)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100                  # total number of data points
+n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
+x1 = np.empty(N)          # protein x1 concentration in uM (vector)
+y1 = np.empty(N)          # protein y1 concentration in uM (vector)
+z1 = np.empty(N)          # protein z1 concentration in uM (vector)
+x2 = np.empty(N)          # protein x2 concentration in uM (vector)
+y2 = np.empty(N)          # protein y2 concentration in uM (vector)
+z2 = np.empty(N)          # protein z2 concentration in uM (vector)
+z3 = np.empty(N)          # protein z3 concentration in uM (vector)
+
+x1.fill(10)               # constant x1 protein concentration (= 10 uM)
+y1[0] = 0                 # initial y1 protein concentration (= 0 uM)
+z1[0] = 0                 # initial z1 protein concentration (= 0 uM)
+x2[0] = 0                 # initial x2 protein concentration (= 0 uM)
+y2[0] = 0                 # initial y2 protein concentration (= 0 uM)
+z2[0] = 0                 # initial z2 protein concentration (= 0 uM)
+z3[0] = 0                 # initial z3 protein concentration (= 0 uM)
+
+Px1y1 = 0.2;              # poduction parameter (x1 --> y1)
+Py1 = 0.9;                # dgradation parameter for y1
+Px1z1 = 3;                # poduction parameter (x1 --> z1)
+Py1z1 = 1.5;              # poduction parameter (y1 --> z1)
+Pz1 = 0.9;                # dgradation parameter for z1
+Px1x2 = 0.5;              # poduction parameter (x1 --> x2)
+Py1x2 = 0.25;             # poduction parameter (y1 --> x2)
+Px2 = 0.9;                # dgradation parameter for x2
+Px2y2 = 0.2;              # poduction parameter (x2 --> y2)
+Py2 = 0.9;                # dgradation parameter for y2
+Px2z2 = 0.5;              # poduction parameter (x2 --> z2)
+Py2z2 = 0.25;             # poduction parameter (y2 --> y2)
+Pz2 = 0.9;                # dgradation parameter for z2
+Px2z3 = 0.04;             # poduction parameter (x2 --> z3)
+Py2z3 = 0.04;             # poduction parameter (y2 --> z3)
+Pz3 = 0.9;                # dgradation parameter for z3
+
+for i in range (1, N): 
+    y1[i] = Px1y1*x1[i-1] + Py1*y1[i-1]                   # update y1 protein concentration
+    z1[i] = Px1z1*x1[i-1] - Py1z1*y1[i-1] + Pz1*z1[i-1]   # update z1 protein concentration
+    x2[i] = Px1x2*x1[i-1] + Py1x2*y1[i-1] + Px2*x2[i-1]   # update x2 protein concentration
+    y2[i] = Px2y2*x2[i-1] + Py2*y2[i-1]                   # update y2 protein concentration
+    z2[i] = Px2z2*x2[i-1] - Py2z2*y2[i-1] + Pz2*z2[i-1]   # update z2 protein concentration
+    z3[i] = Px2z3*x2[i-1] + Py2z3*y2[i-1] + Pz3*z3[i-1]   # update z3 protein concentration
+
+
+plt.plot(n,z1,'g',label = 'z1')
+plt.plot(n,z2,'r',label = 'z2')
+plt.plot(n,z3,'b',label = 'z3')
+plt.xlabel('time (n)')
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='center right')
+plt.title('Interlocked Feed Forward Loops')
+plt.grid(True)
+plt.show()
