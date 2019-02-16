@@ -19,12 +19,18 @@ Py = 0.9                 # degradation parameter
 
 url = 'https://yongjunshin3.azurewebsites.net/api/SimpleTwoGeneRegulatoryNetworkService'
 
+# You can visulaize real-time y protein dynamics at 'https://dweet.io/follow/yprotein'
+dweetUrl = 'https://dweet.io/dweet/for/yprotein'
 
 for i in range (1, N):                                     # discrete-time index i
     data = {'x':x[i-1], 'y':y[i-1], 'Pxy':Pxy, 'Py':Py}    # data to be sent to the server
     response = requests.post(url, json = data)             # send data and receive response
     y[i] = response.json()
     print (y[i])
+    
+    # for dweeting
+    dweetData = {'y':y[i]}
+    requests.post(dweetUrl, json = dweetData)
     
     # response with multiple data
     # responseJson = response.json()
@@ -33,7 +39,6 @@ for i in range (1, N):                                     # discrete-time index
 
 plt.plot(n,x,'g',label = 'x')
 plt.plot(n,y,'r',label = 'y')
-
 plt.xlabel('time (n)')
 plt.ylabel('protein concentration (uM)')
 plt.legend(loc='lower right')
