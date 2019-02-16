@@ -65,8 +65,8 @@ public static async Task<double> Run(HttpRequest req, ILogger log)
     string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
     dynamic data = JsonConvert.DeserializeObject(requestBody);
 
-    double x = data.x;       // x protein (scalar)
-    double y = data.y;       // y protein (scalar)
+    double x = data.x;       // x protein concentration in uM (scalar)
+    double y = data.y;       // y protein concentration in uM (scalar)
     double Pxy = data.Pxy;   // production parameter
     double Py = data.Py;     // degradation parameter
 
