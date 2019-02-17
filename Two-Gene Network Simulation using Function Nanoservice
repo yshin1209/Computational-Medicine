@@ -1,7 +1,7 @@
 Client code:
 
 # Computational Medicine
-# Simple 2-Gene Regulatory Network Simulation using Function Nanoservice
+# Two-Gene Network Simulation using Function Nanoservice
 # Yong-Jun Shin (2019)
 
 import numpy as np
