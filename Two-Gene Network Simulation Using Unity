@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CellScript : MonoBehaviour
+{
+    float x;        // x protein concentration in uM (scalar)
+    float y;        // y protein concentration in uM (scalar)
+    float Pxy;      // production parameter
+    float Py;       // degradation parameter
+    float r;        // red color intensity representing y protein concentration (0 - 1)
+    float yMax;     // maximal y protein concentration in uM
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Pxy = 0.8f;
+        Py = 0.95f;
+        x = 10.0f;    // constanx x protein concentration (= 10 uM)
+        y = 0.0f;     // initial y protein concentration (= 0 uM)
+        yMax = 2 * Pxy * x / (1 - Py);  // assume yMax equals 2 times steady state level
+    }
+
+    // FixedUpdate is called once per frame.
+    // 0.02 seconds (50 calls per second) is the default time between calls.
+    void FixedUpdate()
+    {
+        Time.fixedDeltaTime = 0.05f;  // the time interval in seconds at which physics and other fixed
+                                     // fixed frame updates are performed.
+        y = Pxy * x + Py * y;  // difference equation
+        r = y / yMax;          // compute r
+        GetComponent<Renderer>().material.color = new Color(r, 0, 0); // update the red color intensity
+        Debug.Log("y: " + y);  // display y value in the Unity console window
+        Debug.Log("r: " + r);  // display r value in the Unity console window
+    }
+}
