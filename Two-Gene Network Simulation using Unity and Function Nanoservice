@@ -82,3 +82,45 @@ public class ResponseData
     public float x;
     public float y;
 }
+
+
+Server-side Azure Function code
+
+// Computational Medicine
+// Simple 2-Gene Regulatory Network Simulation using Function Nanoservice
+// Yong-Jun Shin (2019)
+
+#r "Newtonsoft.Json"
+
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+
+public static async Task<Response> Run(HttpRequest req, ILogger log)
+{
+    string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+    dynamic data = JsonConvert.DeserializeObject(requestBody);
+
+    double x = data.x;       // x protein (scalar)
+    double y = data.y;       // y protein (scalar)
+    double Pxy = data.Pxy;   // production parameter
+    double Py = data.Py;     // degradation parameter
+
+    y = Pxy*x + Py*y;        // difference equation
+    log.LogInformation($"The new y protein concentration is {y}");
+    //return y;                // return new y value to the client
+
+    // return x and y (return multiple data)
+    Response r = new Response();
+    r.x = x;
+    r.y = y;
+    return r;
+}
+
+// create a new class to bundle response data
+public class Response
+{
+    public double x;  // x protein (scalar)
+    public double y;  // y protein (scalar)
+}
