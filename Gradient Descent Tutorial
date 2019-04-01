@@ -7,12 +7,12 @@ import matplotlib.pyplot as plt
 def f(x):
   return x**2 + 4*x + 5
 
-N = 30                         # total number of iterations
+N = 30                           # total number of iterations
 iteration = np.arange(0, N, 1)   # iteration vector [0,..., N-1]
 x_opt = np.empty(N)              # optimal x (x_opt) candidate (vector)
 x_opt[0] = 0                     # initial x_opt value = 0
-dx = 0.001                        # delta x
-mu = 1                       # step size mu
+dx = 0.001                       # delta x
+mu = 1                           # step size mu
 
 for n in range (0, N-1):                       # n: iteration index
   slope = (f(x_opt[n]) - f(x_opt[n]-dx))/dx    # slope (first derivative) at x_opt(n)
