@@ -1,0 +1,28 @@
+# Newton's Method (Numerical Optimization)
+# Yong-Jun Shin (2019)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def f(x):
+  return x**2 + 4*x + 5          # x_opt = -1 => f(-2) = 1
+
+N = 5                            # total number of iterations
+iteration = np.arange(0, N, 1)   # iteration vector [0,..., N-1]
+x_opt = np.empty(N)              # optimal x (x_opt) candidate (vector)
+x_opt[0] = 0                     # initial x_opt value = 0
+dx = 0.001                       # delta x
+c = 1                            # constant c
+
+
+for n in range (0, N-1):                       # n: iteration index
+  slope = (f(x_opt[n]) - f(x_opt[n]-dx))/dx    # slope (first derivative) at x_opt(n)
+  hess = (f(x_opt[n]+dx) - 2*f(x_opt[n]) + f(x_opt[n]-dx))/dx**2   # second derivative at x_opt(n)
+  x_opt[n+1] = x_opt[n] - (c/hess) * slope     # Newton's method (step size = c/hess)
+
+plt.plot(iteration,x_opt)
+plt.xlabel('iteration (n)')
+plt.ylabel('optimal x (opt_x)')
+plt.title('Newton\'s Method')
+plt.grid(True)
+plt.show()
