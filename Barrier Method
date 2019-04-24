@@ -49,7 +49,6 @@ dx = 0.001                       # delta x
 c = 1                            # constant c
 b = 0.0000001                    # constant b
 
-
 for n in range (0, N-1):                       # n: iteration index
   slope = (f(x_opt[n]) - f(x_opt[n]-dx))/dx    # slope (first derivative) at x_opt(n)
   hess = (f(x_opt[n]+dx) - 2*f(x_opt[n]) + f(x_opt[n]-dx))/dx**2   # second derivative at x_opt(n)
