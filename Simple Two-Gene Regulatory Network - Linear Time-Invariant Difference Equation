@@ -15,7 +15,6 @@ y[0] = 0                 # initial y protein concentration (= 0 uM)
 Pxy = 0.2                # production parameter
 Py = 0.9                 # degradation parameter
 
-
 for i in range (1, N):              # discrete-time index i
     y[i] = Pxy*x[i-1] + Py*y[i-1]   # difference equation 
 
