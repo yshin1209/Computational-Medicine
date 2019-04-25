@@ -23,9 +23,9 @@ yHat = np.empty(N)       # estimated protein y concentration in uM (vector)
 a1Hat = np.empty(N)      # estimated a1 parameter (vector)                                                          
 b1Hat = np.empty(N)      # estimated b1 parameter (vector)                                                        
 e = np.empty(N)          # y protein estimation error in uM (vector) (= y - yHat)
-a1Hat[1] = 0             # initial estimated a1 parameter (= 0 uM)                                                     
-b1Hat[1] = 0             # initial estimated b1 parameter (= 0 uM) 
-u = 0.01                # step size (mu)
+a1Hat[1] = 0             # initial estimated a1 parameter                                                   
+b1Hat[1] = 0             # initial estimated b1 parameter 
+u = 0.01                 # step size (mu)
 
 for i in range (1, N-1):                             
     
