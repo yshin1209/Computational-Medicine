@@ -16,7 +16,7 @@ a1.fill(0.2)             # constant a1 parameter (= 0.2)
 b1.fill(0.9)             # constant b1 parameter (= 0.9)
 
 m = 0                    # mean of Gaussian noise
-sd = 0.1                 # standard deviation of Gaussian noise 
+sd = 0.2                 # standard deviation of Gaussian noise 
 x[0] = x[0] + np.random.normal(m, sd)   # initial measured x protein concentration (simulated)
 y[0] = 0 + np.random.normal(m, sd)      # initial measured y protein concentration (simulated) 
 yHat = np.empty(N)       # estimated protein y concentration in uM (vector)
@@ -52,8 +52,8 @@ plt.plot(n, b1Hat, 'c', label = 'estimated b1')
 plt.plot(n, e, 'r', label = 'y protein estimation error')
 plt.xlabel('time (i)')                                                         
 plt.ylabel('protein concentration (uM)')
-plt.legend(loc='lower left')
+plt.legend(loc='upper left')
 plt.title('LMS Adaptive Filter')
-plt.axis([0, N, -3, 2])
+plt.axis([0, N, -3, 20])
 plt.grid(True)
 plt.show()
