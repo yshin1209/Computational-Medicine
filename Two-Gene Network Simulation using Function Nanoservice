@@ -1,8 +1,8 @@
-Client code:
-
 # Computational Medicine
 # Two-Gene Network Simulation using Function Nanoservice
+# Client-side code
 # Yong-Jun Shin (2019)
+
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,18 +19,11 @@ Py = 0.9                 # degradation parameter
 
 url = 'https://yongjunshin3.azurewebsites.net/api/SimpleTwoGeneRegulatoryNetworkService'
 
-# You can visulaize real-time y protein dynamics at 'https://dweet.io/follow/yprotein'
-dweetUrl = 'https://dweet.io/dweet/for/yprotein'
-
 for i in range (1, N):                                     # discrete-time index i
     data = {'x':x[i-1], 'y':y[i-1], 'Pxy':Pxy, 'Py':Py}    # data to be sent to the server
     response = requests.post(url, json = data)             # send data and receive response
     y[i] = response.json()
     print (y[i])
-    
-    # for dweeting
-    dweetData = {'y':y[i]}
-    requests.post(dweetUrl, json = dweetData)
     
     # response with multiple data
     # responseJson = response.json()
@@ -46,12 +39,13 @@ plt.title('x --> y')
 plt.grid(True)
 plt.show()
 
-
-Server code:
+---------------------------------------------------------------------------------
 
 // Computational Medicine
 // Simple 2-Gene Regulatory Network Simulation using Function Nanoservice
+// Server-side code
 // Yong-Jun Shin (2019)
+
 
 #r "Newtonsoft.Json"
 
