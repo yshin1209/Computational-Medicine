@@ -25,10 +25,11 @@ for i in range (1, N):                                     # discrete-time index
     y[i] = response.json()
     print (y[i])
     
-    # response with multiple data
+    # response with multiple data (y and z)
     # responseJson = response.json()
     # print (responseJson)
     # y[i] = responseJson['y']
+    # z[i] = responseJson['z']
 
 plt.plot(n,x,'g',label = 'x')
 plt.plot(n,y,'r',label = 'y')
@@ -68,11 +69,11 @@ public static async Task<double> Run(HttpRequest req, ILogger log)
     log.LogInformation($"The new y protein concentration is {y}");
     return y;                // return new y value to the client
 
-    // return x and y (return multiple data)
+    // return multiple data(y and z)
     /*
     Response r = new Response();
-    r.x = x;
     r.y = y;
+    r.z = z;
     return r;
     */
 }
@@ -81,7 +82,7 @@ public static async Task<double> Run(HttpRequest req, ILogger log)
 /*
 public class Response
 {
-    public double x;  // x protein (scalar)
-    public double y;  // y protein (scalar)
+    public double y;  // y protein concentration (scalar)
+    public double z;  // z protein concentration (scalar)
 }
 */
