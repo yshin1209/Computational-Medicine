@@ -1,0 +1,50 @@
+# Gene Expression Control using PID Control
+# Yong-Jun Shin (2020)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100                       # total number of data points
+n = np.arange(0, N, 1)        # [0,..., N-1] (vector)
+x = np.empty(N)               # protein x concentration in uM (vector)
+r = np.empty(N)               # reference concentration in uM (vector)
+r.fill(10)                    # constant reference concentration (= 10 uM)
+c = np.empty(N)               # control light intensity in artibrary units (vector)
+                              # red light (positive values) enhances protein production
+                              # blue light (negative values) enhances protein degradation
+e = np.empty(N)               # error(r - x) in uM (vector)
+sum_e = np.empty(N)           # error sum in uM (vector)
+diff_e = np.empty(N)          # error difference (current error - previous error) in uM (vector)
+d = np.empty(N)               # disturbance in uM (vector)
+angle = np.arange(0, 2*np.pi, 2*np.pi/N)  # angle from 0 to 2pi in radian (N data points)
+d = 2*np.sin(angle)           # sine wave disturbance (1 cycle) 
+x[0] = 12                     # initial protein x concentration in uM
+e[0] = r[0] - x[0]            # initial error(r - x)
+sum_e[0] = e[0]               # initial error sum
+diff_e[0] = 0                 # initial error difference (current error - previous error)
+Kp =                          # proportional gain 
+Ki =                          # integral gain 
+Kd =                          # derivative gain 
+Px = 0.9                      # degradation parameter
+
+for i in range (1, N):                                          # discrete-time index i
+    c[i-1] =                                                    # control light intensity update equation  
+    x[i] = c[i-1] + Px*x[i-1] + d[i]                            # protein x concentration update equation
+    if x[i] < 0:                                                # if protein x concentration is lower than 0
+      x[i] = 0                                                  # protein x concentration becomes 0
+    e[i] =                                                      # error update equation 
+    sum_e[i] =                                                  # error sum update equation 
+    diff_e[i] =                                                 # error difference update equation 
+
+plt.plot(n,r,'blue',label = 'reference')      # plot reference concentration 
+plt.plot(n,x,'cyan',label = 'x protein')      # plot x concentration 
+plt.plot(n,d,'red',label = 'disturbance')     # plot disturbance 
+plt.plot(n[1:N-1],c[1:N-1],'green',label = 'control')   # plot control light intensity(positive or negative)
+plt.xlabel('time (n)')
+plt.ylabel('concentrtion (uM) & light intensity(arbitrary unit)')
+plt.legend(loc='upper right')
+plt.ylim(-5, 20)
+plt.title('Gene Expression Control using PID Control')
+plt.grid(True)
+plt.show()
+plt.show
