@@ -41,7 +41,7 @@ plt.plot(n,x,'cyan',label = 'x protein')      # plot x concentration
 plt.plot(n,d,'red',label = 'disturbance')     # plot disturbance 
 plt.plot(n[1:N-1],c[1:N-1],'green',label = 'control')   # plot control light effect(positive or negative)
 plt.xlabel('time (n)')
-plt.ylabel('concentrtion (uM) & light effect(arbitrary unit)')
+plt.ylabel('concentrtion (uM) & light effect (arbitrary unit)')
 plt.legend(loc='upper right')
 plt.ylim(-5, 20)
 plt.title('Gene Expression Control using PID Control')
