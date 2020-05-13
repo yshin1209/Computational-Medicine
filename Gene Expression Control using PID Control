@@ -22,19 +22,19 @@ x[0] = 12                     # initial protein x concentration in uM
 e[0] = r[0] - x[0]            # initial error(r - x)
 sum_e[0] = e[0]               # initial error sum
 diff_e[0] = 0                 # initial error difference (current error - previous error)
-Kp =                          # proportional gain 
-Ki =                          # integral gain 
-Kd =                          # derivative gain 
+Kp = 0                        # proportional gain 
+Ki = 0                        # integral gain 
+Kd = 0                        # derivative gain 
 Px = 0.9                      # degradation parameter
 
-for i in range (1, N):                                          # discrete-time index i
-    c[i-1] =                                                    # control light intensity update equation  
-    x[i] = c[i-1] + Px*x[i-1] + d[i]                            # protein x concentration update equation
-    if x[i] < 0:                                                # if protein x concentration is lower than 0
-      x[i] = 0                                                  # protein x concentration becomes 0
-    e[i] =                                                      # error update equation 
-    sum_e[i] =                                                  # error sum update equation 
-    diff_e[i] =                                                 # error difference update equation 
+for i in range (1, N):                                         # discrete-time index i
+    c[i-1] = 0                                                 # control light intensity update equation  
+    x[i] = c[i-1] + Px*x[i-1] + d[i]                           # protein x concentration update equation
+    if x[i] < 0:                                               # if protein x concentration is lower than 0
+      x[i] = 0                                                 # protein x concentration becomes 0
+    e[i] = 0                                                   # error update equation 
+    sum_e[i] = 0                                               # error sum update equation 
+    diff_e[i] = 0                                              # error difference update equation 
 
 plt.plot(n,r,'blue',label = 'reference')      # plot reference concentration 
 plt.plot(n,x,'cyan',label = 'x protein')      # plot x concentration 
