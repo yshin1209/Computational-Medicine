@@ -9,7 +9,7 @@ n = np.arange(0, N, 1)        # [0,..., N-1] (vector)
 x = np.empty(N)               # protein x concentration in uM (vector)
 r = np.empty(N)               # reference concentration in uM (vector)
 r.fill(10)                    # constant reference concentration (= 10 uM)
-c = np.empty(N)               # control light effect in artibrary units (vector)
+c = np.empty(N)               # control light effect on concentration in uM (vector)
                               # red light (positive values) enhances protein production
                               # blue light (negative values) enhances protein degradation
 e = np.empty(N)               # error(r - x) in uM (vector)
