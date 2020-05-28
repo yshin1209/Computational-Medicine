@@ -3,18 +3,15 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt2
 
 N = 100                  # total number of data points
-n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
-                        
+n = np.arange(0, N, 1)   # [0,..., N-1] (vector)          
 x = np.empty(N)          # measured protein x concentration in uM (vector)
 y = np.empty(N)          # measured protein y concentration in uM (vector)
-x.fill(5)                # constant measured x protein concentration (= 5 uM)
-a1 = np.empty(N)         # a1 parameter (vector)
-b1 = np.empty(N)         # b1 parameter (vector)
-a1.fill(0.2)             # constant a1 parameter (= 0.2)
-b1.fill(0.9)             # constant b1 parameter (= 0.9)
-
+x.fill(5)                # constant measured x protein concentration (= 5 uM)        
+a1 = np.linspace(0.6, 0.3, num=N)  # a1 parameter decreasing from 0.6 to 0.3 (vector)
+b1 = np.linspace(0.9, 0.2, num=N)  # b1 parameter decreasing from 0.9 to 0.2 (vector)
 m = 0                    # mean of Gaussian noise
 sd = 0.2                 # standard deviation of Gaussian noise 
 x[0] = x[0] + np.random.normal(m, sd)   # initial measured x protein concentration (simulated)
@@ -25,7 +22,7 @@ b1Hat = np.empty(N)      # estimated b1 parameter (vector)
 e = np.empty(N)          # y protein estimation error in uM (vector) (= y - yHat)
 a1Hat[1] = 0             # initial estimated a1 parameter                                                   
 b1Hat[1] = 0             # initial estimated b1 parameter 
-u =  0                   # step size (mu)
+u = 0                    # step size (mu)
 
 for i in range (1, N-1):                             
     
@@ -33,11 +30,11 @@ for i in range (1, N-1):
     x[i] = x[i] + np.random.normal(m, sd)                          # measured x protein concentration (simulated)
     y[i] = a1[i]*x[i-1] + b1[i]*y[i-1] + np.random.normal(m, sd)   # measured y protein concentration (simulated)
   
-    # adaptive system identification (LMS)                           
-    yHat[i] = 0                                                    # estimated protein y concentration
-    e[i] = 0                                                       # y protein estimation error
-    a1Hat[i+1] = 0                                                 # estimated a1 parameter
-    b1Hat[i+1] = 0                                                 # estimated b1 parameter
+    # Least Mean Squares(LMS) adaptive filter                          
+    yHat[i] = 0               # estimated protein y concentration
+    e[i] = 0                  # y protein estimation error
+    a1Hat[i+1] = 0            # estimated a1 parameter
+    b1Hat[i+1] = 0            # estimated b1 parameter
     
 x[N-1] = x[N-2] + np.random.normal(m, sd)                            # last measured x protein concentration (simulated)
 y[N-1] = a1[N-1]*x[N-2] + b1[N-1]*y[N-2] + np.random.normal(m, sd)   # last measured y protein concentration (simulated)
@@ -47,13 +44,21 @@ e[N-1] = y[N-1] - yHat[N-1]                                          # last y pr
 plt.plot(n, x, 'y', label = 'x protein')                                         
 plt.plot(n, y, 'g', label = 'y protein')
 plt.plot(n, yHat, 'b', label = 'estimated y protein')
-plt.plot(n, a1Hat, 'm', label = 'estimated a1')
-plt.plot(n, b1Hat, 'c', label = 'estimated b1')
 plt.plot(n, e, 'r', label = 'y protein estimation error')
 plt.xlabel('time (i)')                                                         
 plt.ylabel('protein concentration (uM)')
-plt.legend(loc='upper left')
+plt.legend(loc='upper right')
 plt.title('LMS Adaptive Filter')
 plt.axis([0, N, -3, 30])
 plt.grid(True)
 plt.show()
+
+plt2.plot(n, a1Hat, 'm', label = 'estimated a1')
+plt2.plot(n, b1Hat, 'c', label = 'estimated b1')
+plt2.xlabel('time (i)')                                                         
+plt2.ylabel('parameter value')
+plt2.legend(loc='upper right')
+plt2.title('Estimated Parameter Values')
+plt2.axis([0, N, 0, 2])
+plt2.grid(True)
+plt2.show()
