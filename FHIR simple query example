@@ -1,0 +1,13 @@
+# FHIR simple query example
+# Yong-Jun Shin (2020)
+
+import requests
+
+# HAPIFHIR test server: https://hapifhir.io/
+# FHIR resource "observation" description: https://www.hl7.org/fhir/observation.html
+# url to access the observation resource with ID 585224
+url = 'http://hapi.fhir.org/baseR4/Observation/585224'
+
+response = requests.get(url)  
+responseJson = response.json()
+print (responseJson)
