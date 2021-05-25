@@ -31,10 +31,10 @@ for i in range (1, N-1):
     y[i] = a1[i]*x[i-1] + b1[i]*y[i-1] + np.random.normal(m, sd)   # measured y protein concentration (simulated)
   
     # Least Mean Squares(LMS) adaptive filter                          
-    yHat[i] = 0               # estimated protein y concentration
-    e[i] = 0                  # y protein estimation error
-    a1Hat[i+1] = 0            # estimated a1 parameter
-    b1Hat[i+1] = 0            # estimated b1 parameter
+    yHat[i] = a1Hat[i]*x[i-1] + b1Hat[i]*y[i-1]      # estimated protein y concentration
+    e[i] = y[i] - yHat[i]                            # y protein estimation error
+    a1Hat[i+1] = a1Hat[i] + u*x[i-1]*e[i]            # estimated a1 parameter
+    b1Hat[i+1] = b1Hat[i] + u*y[i-1]*e[i]            # estimated b1 parameter
     
 x[N-1] = x[N-2] + np.random.normal(m, sd)                            # last measured x protein concentration (simulated)
 y[N-1] = a1[N-1]*x[N-2] + b1[N-1]*y[N-2] + np.random.normal(m, sd)   # last measured y protein concentration (simulated)
