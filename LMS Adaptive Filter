@@ -22,7 +22,7 @@ b1Hat = np.empty(N)      # estimated b1 parameter (vector)
 e = np.empty(N)          # y protein estimation error in uM (vector) (= y - yHat)
 a1Hat[1] = 0             # initial estimated a1 parameter                                                   
 b1Hat[1] = 0             # initial estimated b1 parameter 
-u = 0                    # step size (mu)
+u = 0.001                # step size (mu)
 
 for i in range (1, N-1):                             
     
