@@ -1,3 +1,5 @@
+#VS Code
+
 import logging
 import json
 import azure.functions as func
@@ -5,10 +7,50 @@ import azure.functions as func
 
 def main(req) -> str:
     logging.info('Python HTTP trigger function processed a request.')
-    req_body = req.get_json()
-    x = req_body.get('x')
-    y = req_body.get('y')
-
+    #req_body = req.get_json()
+    req_body = req.get_body().decode(encoding='UTF-8')
+    req_body = json.loads(req_body)
+    x = req_body['x']
+    y = req_body['y']
+    p_xy = req_body['p_xy']
+    p_y = req_body['p_y']
+    
+    y = p_xy*x + p_y*y
     response = {'y':y}
     json_response = json.dumps(response)
+    logging.info(json_response)
     return json_response
+
+
+
+#Google Colab
+
+import networkx as nx
+import matplotlib.pyplot as plt
+import requests
+import json
+
+N = 100
+G = nx.DiGraph()
+
+G.add_node('x')
+G.add_node('y')
+G.add_edge('x', 'y')
+
+G.nodes['x']['concentration'] = 10
+x_conc = G.nodes['x']['concentration']
+G.nodes['y']['concentration'] = 0
+y_conc = G.nodes['y']['concentration']
+p_xy = 0.2
+p_y = 0.8
+
+url = 'https://azurefunctionpythonyshin.azurewebsites.net/api/HttpTrigger1?'
+for i in range(1,N):
+  request_body = {"x": x_conc, "y": y_conc, "p_xy": p_xy, "p_y": p_y}
+  response = requests.post(url, data = json.dumps(request_body))
+  print (response)
+  response_body = response.json()
+  y_conc = response_body['y']
+  print (y_conc)
+nx.draw(G, with_labels=1)
+plt.show() 
