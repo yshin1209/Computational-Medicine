@@ -1,0 +1,14 @@
+import logging
+import json
+import azure.functions as func
+
+
+def main(req) -> str:
+    logging.info('Python HTTP trigger function processed a request.')
+    req_body = req.get_json()
+    x = req_body.get('x')
+    y = req_body.get('y')
+
+    response = {'y':y}
+    json_response = json.dumps(response)
+    return json_response
