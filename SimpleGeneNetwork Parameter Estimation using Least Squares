@@ -1,0 +1,43 @@
+# Computational Medicine
+# Simple Two-Gene Regulatory Network (Activation): x --> y
+# Linear Time-Invariant Difference Equation
+# Parameter Estimation using Least Squares
+# Yong-Jun Shin (2021)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 100                  # total number of data points
+n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
+x = np.empty(N)          # protein x concentration in uM (vector)
+y = np.empty(N)          # protein y concentration in uM (vector)
+x.fill(20)               # constant x protein concentration (= 20 uM)
+m = 0                    # mean of Gaussian noise
+sd = 2                   # standard deviation of Gaussian noise 
+x[0] = x[0] + np.random.normal(m, sd)    # initial measured x protein concentration (simulated)
+y[0] = 10 + np.random.normal(m, sd)      # initial measured y protein concentration (simulated) 
+Pxy = 0.8                # production parameter
+Py = 0.7                 # degradation parameter
+
+for i in range (1, N):              # discrete-time index i
+    x[i] = x[i] + np.random.normal(m, sd) 
+    y[i] = Pxy*x[i-1] + Py*y[i-1] + np.random.normal(m, sd) # difference equation 
+
+#최소제곱법
+A = np.vstack([x[0:N-1], y[0:N-1]]).T
+b = y[1:N]
+p = np.dot(np.linalg.inv(np.dot(A.T, A)), np.dot(A.T, b))
+
+print ('시뮬레이션에 사용된 Pxy값 = ' + str(Pxy))
+print ('시뮬레이션에 사용된 Py값 = ' + str(Py))
+print ('Pxy 추정값 = ' + str(p[0]))
+print ('Py 추정값 = ' + str(p[1]))
+
+plt.plot(n,x,'g',label = 'x')
+plt.plot(n,y,'r',label = 'y')
+plt.xlabel('time (n)')
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='lower right')
+plt.title('x --> y')
+plt.grid(True)
+plt.show()
