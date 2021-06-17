@@ -1,4 +1,3 @@
-
 # Computational Medicine
 # Two-Gene Network Simulation using Function Nanoservice
 # Client-side code
@@ -8,6 +7,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import requests
+import json
 
 N = 100                  # total number of data points
 n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
@@ -22,8 +22,8 @@ url = ''                 # Azure Functions URL
 
 for i in range (1, N):                                            # discrete-time index i
     requestData = {'x':x[i-1], 'y':y[i-1], 'Pxy':Pxy, 'Py':Py}    # data to be sent to the server
-    requestJson = json.dumps(requestData)                         # conversion to json optional (not required)
-    response = requests.post(url, json = requestJson)             # send data and receive response
+    requestJson = json.dumps(requestData)                         # conversion to json (optional, not required)
+    response = requests.post(url, data = requestJson)             # send data and receive response
     responseJson = response.json()
     y[i] = responseJson['y']           
     print (y[i])
