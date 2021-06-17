@@ -1,3 +1,4 @@
+
 # Computational Medicine
 # Two-Gene Network Simulation using Function Nanoservice
 # Client-side code
@@ -17,12 +18,14 @@ y[0] = 0                 # initial y protein concentration (= 0 uM)
 Pxy = 0.2                # production parameter
 Py = 0.9                 # degradation parameter
 
-url = 'https://yongjunshin3.azurewebsites.net/api/SimpleTwoGeneRegulatoryNetworkService'
+url = ''                 # Azure Functions URL
 
 for i in range (1, N):                                     # discrete-time index i
     data = {'x':x[i-1], 'y':y[i-1], 'Pxy':Pxy, 'Py':Py}    # data to be sent to the server
-    response = requests.post(url, json = data)             # send data and receive response
-    y[i] = response.json()
+    response = requests.post(url, json = data)  
+    responseJson = response.json()
+    y[i] = responseJson['y']           # send data and receive response
+
     print (y[i])
     
     # response with multiple data (y and z)
@@ -39,6 +42,7 @@ plt.legend(loc='lower right')
 plt.title('x --> y')
 plt.grid(True)
 plt.show()
+
 
 ---------------------------------------------------------------------------------
 
