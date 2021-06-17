@@ -20,9 +20,10 @@ Py = 0.9                 # degradation parameter
 
 url = ''                 # Azure Functions URL
 
-for i in range (1, N):                                     # discrete-time index i
-    data = {'x':x[i-1], 'y':y[i-1], 'Pxy':Pxy, 'Py':Py}    # data to be sent to the server
-    response = requests.post(url, json = data)             # send data and receive response
+for i in range (1, N):                                            # discrete-time index i
+    requestData = {'x':x[i-1], 'y':y[i-1], 'Pxy':Pxy, 'Py':Py}    # data to be sent to the server
+    requestJson = json.dumps(requestData)                         # conversion to json optional (not required)
+    response = requests.post(url, json = requestJson)             # send data and receive response
     responseJson = response.json()
     y[i] = responseJson['y']           
     print (y[i])
