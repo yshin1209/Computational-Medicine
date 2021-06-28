@@ -1,0 +1,64 @@
+# LMS (Least Mean Squares) Adaptive Filter (Simple Two-Gene Network)
+# Yong-Jun Shin (2019)
+
+import numpy as np
+import matplotlib.pyplot as plt
+N = 100              # total number of data points
+n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
+                        
+x = np.empty(N)          # measured protein x concentration in uM (vector)
+y = np.empty(N)          # measured protein y concentration in uM (vector)
+x.fill(10)               # constant measured x protein concentration (= 10 uM)
+Pxy = np.empty(N)        # Pxy parameter (vector)
+Py = np.empty(N)         # Py parameter (vector)
+Pxy.fill(0.3)            # constant Pxy parameter (= 0.8)
+Py.fill(0.8)             # constant Py parameter (= 0.9)
+
+m = 0                    # mean of Gaussian noise
+sd = 1                   # standard deviation of Gaussian noise 
+x[0] = x[0] + np.random.normal(m, sd)   # initial measured x protein concentration (simulated)
+y[0] = 0 + np.random.normal(m, sd)      # initial measured y protein concentration (simulated) 
+
+y_est = np.empty(N)      # estimated protein y concentration in uM (vector)  y_est = y추정값
+Pxy_opt = np.empty(N)    # estimated a1 parameter (vector)                                                          
+Py_opt = np.empty(N)     # estimated b1 parameter (vector)                                                        
+e = np.empty(N)          # y protein estimation error in uM (vector) (= y - y_est)
+Pxy_opt[1] = 0           # initial estimated Pxy parameter value                                                   
+Py_opt[1] = 0            # initial estimated Py parameter value
+s = 0.001             # step size s
+
+for i in range (1, N-1):                             
+    
+    # simulated experiment
+    x[i] = x[i] + np.random.normal(m, sd)                          # measured x protein concentration (simulated)
+    y[i] = Pxy[i]*x[i-1] + Py[i]*y[i-1] + np.random.normal(m, sd)  # measured y protein concentration (simulated)
+  
+    # stochastic gradient descent                           
+    y_est[i] = Pxy_opt[i]*x[i-1] + Py_opt[i]*y[i-1]      # estimated protein y concentration
+    e[i] = y[i] - y_est[i]                               # y protein estimation error
+    Pxy_opt[i+1] = Pxy_opt[i] + s*x[i-1]*e[i]            # estimated Pxy parameter
+    Py_opt[i+1] = Py_opt[i] + s*y[i-1]*e[i]              # estimated Py parameter
+    
+plt.plot(n, x, 'y', label = 'measured x protein')                                         
+plt.plot(n, y, 'g', label = 'measured y protein')
+plt.plot(n, y_est, 'b', label = 'estimated y protein')
+plt.plot(n, e, 'r', label = 'y protein estimation error')
+plt.xlabel('time (i)')                                                         
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='lower right')
+plt.title('Parameter Estimation using Stochastic Gradient Descent ')
+plt.axis([0, N, -3, 20])
+plt.grid(True)
+plt.show()
+
+
+# 추정된 모델 계수 그래프
+plt.plot(n, Pxy_opt, 'm', label = 'optimal Pxy')
+plt.plot(n, Py_opt, 'c', label = 'optimal Py')
+plt.xlabel('time (i)')                                                         
+plt.ylabel('protein concentration (uM)')
+plt.legend(loc='lower right')
+plt.title('Parameter Estimation using Stochastic Gradient Descent ')
+plt.axis([0, N, 0, 1])
+plt.grid(True)
+plt.show()
