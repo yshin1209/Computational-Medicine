@@ -1,0 +1,44 @@
+# Blood Glucose Level Prediction using Stochastic Gradient Descent
+# Yong-Jun Shin (2021)
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 300                  # number of total glucose measurements
+n = np.arange(0, N, 1)   # [0,..., N-1] (vector)
+g = np.empty(N)          # measured glucose concentration in mg/dL (vector)
+
+# import glucose measurement data
+count = 0
+with open ('CGM.txt', 'r') as file:
+  next(file)
+  for line in file:
+    line_list = line.split('|')
+    g[count] = line_list[3]
+    count = count + 1
+
+g_est = np.zeros(N)      # estimated glucose concentration in ug/dL (vector)  g_est --> glucose 추정값
+P1_opt = np.zeros(N)     # estimated P1 parameter (vector)                                                          
+P2_opt = np.zeros(N)     # estimated P2 parameter (vector)                                                        
+e = np.zeros(N)          # glucose concentration estimation error in uM (vector) (= y - y_est)
+P1_opt[2] = 0.1          # initial estimated P1 parameter value                                                   
+P1_opt[2] = 0.2          # initial estimated P2 parameter value
+s = 0.000001             # step size s
+
+for i in range (2, N-2):                             
+    # parameter estimation using stochastic gradient descent                           
+    g_est[i] = P1_opt[i]*g[i-1] + P2_opt[i]*g[i-2]       # estimated glucose concentration
+    e[i] = g[i] - g_est[i]                               # glucose concentration estimation error
+    P1_opt[i+1] = P1_opt[i] + s*g[i-1]*e[i]              # estimated P1 parameter
+    P2_opt[i+1] = P2_opt[i] + s*g[i-2]*e[i]              # estimated P2 parameter
+    
+plt.plot(n, g, 'g', label = 'measured glucose level')                                         
+plt.plot(n, g_est, 'b', label = 'estimated glucose level')
+plt.plot(n, e, 'r', label = 'glucose level estimation error')
+plt.xlabel('time (i)')                                                         
+plt.ylabel('blood glucose concentration (mg/dL)')
+plt.legend(loc='upper left')
+plt.title('Blood Glucose Level Prediction using Stochastic Gradient Descent ')
+plt.axis([0, N, -50, 400])
+plt.grid(True)
+plt.show()
